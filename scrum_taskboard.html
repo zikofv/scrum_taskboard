@@ -1,0 +1,118 @@
+<head>
+  <title>Meteor Scrum Taskboard</title>
+</head>
+
+<body>
+  {{> mainContainer}}
+</body>
+
+<!--
+mainContainer
+-->
+<template name="mainContainer">
+{{# if showTaskDialog}}
+  {{> taskDialog }}
+{{/if}}
+<div class="container">
+  <div>
+
+    {{! The task create button row. }}
+    <div class="row">
+      <div class="span12">
+      <h1>Meteor Scrum Taskboard</h1>
+      {{> createTask}}
+      </div>
+    </div>
+
+    {{! The task board row. }}
+    <div class="row">
+      {{> taskBoard}}
+    </div>
+
+  </div>
+</div>
+</template>
+
+<!--
+createTask
+-->
+<template name="createTask">
+<button class="btn createTask" title="Create a new Task">New Task <i class="icon-plus"></i></button>
+</template>
+
+<!--
+taskDialog
+-->
+<template name="taskDialog">
+  <div class="mask"></div>
+  <div class="modal">
+    <div class="modal-header">
+      <button type="button" class="close cancel">&times;</button>
+      <h3>{{title}}</h3>
+    </div>
+
+    <div class="modal-body">
+      {{#with task}}
+      <label>Description</label>
+      <textarea class="description input-block-level" placeholder="Enter the task description.">{{description}}</textarea>
+
+      <label>Estimated Length</label>
+      <input class="estimation" type="text" placeholder="Enter the estimated length." value="{{estimation}}"></input>
+
+      {{/with}}
+      <label>Task state</label>
+      <select class="state" id="inputState">
+        {{#each states}}
+        <option {{selected}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn cancel">Cancel</a>
+      <a href="#" class="btn btn-primary save">Save</a>
+    </div>
+  </div>
+</template>
+
+<!--
+taskBoard
+-->
+<template name="taskBoard">
+{{!
+Task board template. This template shows a column for each possible task state.
+The states are defined as an array in the js file.
+Each column shows the list of task in the matching state.
+}}
+{{# each columnTitles}}
+  <div class="span{{ columnWidth }}">
+    <h2>{{ this }}</h2>
+    {{#each tasksByState this }}
+    {{> task}}
+    {{/each}}
+  </div>
+{{/each}}
+</template>
+
+<!--
+task
+-->
+<template name="task">
+{{!
+Task template. This template shows the task's fields.
+}}
+<div class="row task-row">
+  <div class="span{{columnWidth}}">
+    <div class="task">
+      <div>
+        {{#markdown}}{{description}}{{/markdown}}
+      </div>
+      {{#if estimation}}
+      <span class="label label-info" title="Estimated task length"><i class="icon-time"></i> {{estimation}}</span>
+      {{/if}}
+      <button class="btn btn-mini editTask" title="Edit task"><i class="icon-pencil"></i></button>
+      <button class="btn btn-mini removeTask" title="Delete task"><i class="icon-remove"></i></button>
+    </div>
+  </div>
+</div>
+</template>

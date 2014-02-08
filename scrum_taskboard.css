@@ -1,0 +1,27 @@
+/* CSS declarations go here */
+
+body {
+  background-color: #C1E5F3;
+}
+
+.task {
+  background-color: #FFFF9D;
+  padding: 10px;
+  border-style: solid;
+  border-color: #ABB5AD;
+}
+
+.task-row {
+  margin-bottom: 5px;
+}
+
+.mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: #000000;
+    opacity: .4;
+    z-index: 1;
+}
